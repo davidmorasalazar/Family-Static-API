@@ -42,15 +42,20 @@ def addMember():
     jackson_family.add_member(request_body)
     return jsonify(request_body), 200
 
-@app.route('/post_member/<int:member_id>', methods=['GET'])
+@app.route('/member/<int:member_id>', methods=['GET'])
 def getMember(member_id):
     member = jackson_family.get_member(member_id)
     return jsonify(member), 200
 
-@app.route('/post_member/<int:member_id>', methods=['DELETE'])
+@app.route('/delete_member/<int:member_id>', methods=['DELETE'])
 def deleteMember(member_id):
-    member = jackson_family.delete_member(member_id)
-    return jsonify({"done":True}),200
+    member = jackson_family.query.get(member_id)
+    if member is None:
+        raise APIException('User not found', status_code=404)
+    db.session.delete(member)
+    db.session.commit()
+    # member = jackson_family.delete_member(member_id)
+    # return jsonify({"done":True}),200
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
