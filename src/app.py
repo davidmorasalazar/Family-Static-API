@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
-from flask import Flask, request, jsonify, url_for
+from flask import Flask, request, jsonify, url_for, json
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from datastructures import FamilyStructure
@@ -49,13 +49,12 @@ def getMember(member_id):
 
 @app.route('/delete_member/<int:member_id>', methods=['DELETE'])
 def deleteMember(member_id):
-    member = jackson_family.query.get(member_id)
+    member = jackson_family.delete_member(member_id)
     if member is None:
         raise APIException('User not found', status_code=404)
-    db.session.delete(member)
-    db.session.commit()
     # member = jackson_family.delete_member(member_id)
-    # return jsonify({"done":True}),200
+    else:
+        return jsonify({"done":True}),200
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':

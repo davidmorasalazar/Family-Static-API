@@ -14,7 +14,7 @@ class FamilyStructure:
 
         # example list of members
         self._members = [{
-    "id": 1,
+    "id": self._generateId(),
     "first_name": "John",
     "last_name": "Jackson",
     "age": 33,
@@ -22,7 +22,7 @@ class FamilyStructure:
     }, 
 
     {
-    "id": 2,
+    "id": self._generateId(),
     "first_name": "Jane",
     "last_name": "Jackson",
     "age": 35,
@@ -30,7 +30,7 @@ class FamilyStructure:
     },
 
     {
-    "id": 3,
+    "id": self._generateId(),
     "first_name": "Jimmy",
     "last_name": "Jackson",
     "age": 5,
@@ -42,14 +42,17 @@ class FamilyStructure:
         return randint(0, 99999999)
 
     def add_member(self, member):
+        member["id"] = self._generateId()
         self._members.append(member)
         # fill this method and update the return
         return None
 
     def delete_member(self, id):
         # fill this method and update the return
-        self._members.append(member)
-        return None
+        # self._members.delete(member)
+        for i in range(len(self._members)):
+            if self._members[i]["id"] == int(id): #esa es la sintaxis para llamar el "id" de i.
+                 return self._members.pop(i)
 
     def get_member(self, id):
         # fill this method and update the return
